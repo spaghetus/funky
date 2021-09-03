@@ -20,16 +20,13 @@ pub fn menu_entry_set_position(
 		let (distance, coefficient, z_offset) = if state.current() == e_state {
 			(-200, 10.0, 1.0)
 		} else {
-			(-100, 8.0, -1.5)
+			(-100, 5.0, 0.0)
 		};
 		let y_goal = (*n as isize - s.0 as isize) * distance;
-		let goal = Transform::from_translation(Vec3::new(
-			t.translation.x,
-			y_goal as f32,
-			t.translation.z + z_offset,
-		));
+		let goal = Transform::from_translation(Vec3::new(t.translation.x, y_goal as f32, 0.0));
 		let distance = goal.translation - t.translation;
 		t.translation += distance * ti.delta_seconds() * coefficient;
+		t.translation.z = z_offset;
 	}
 }
 
@@ -42,26 +39,30 @@ pub fn menu_entry_scale(
 		if state.current() == e_state {
 			if s.0 == *n {
 				for text in &mut text.sections {
+					text.style.color = Color::WHITE;
 					text.style.font_size = 100.0;
 				}
 			} else {
 				for text in &mut text.sections {
+					text.style.color = Color::WHITE;
 					text.style.font_size = 75.0;
 				}
 			}
 		} else {
 			for text in &mut text.sections {
+				text.style.color = Color::DARK_GRAY;
 				text.style.font_size = 50.0;
 			}
 		}
 	}
 }
 
-pub struct MenuChoose;
+pub struct MenuChoose(pub usize, pub GameState);
 
 pub fn menu_entry_choose_position(
 	mut e: EventWriter<MenuChoose>,
 	mut s: ResMut<MenuSelected>,
+	state: Res<State<GameState>>,
 	mut keys: ResMut<Input<KeyCode>>,
 	entries: Query<&MenuEntry>,
 ) {
@@ -76,9 +77,8 @@ pub fn menu_entry_choose_position(
 		}
 	}
 	if keys.just_released(KeyCode::Return) {
-		println!("Choose {}", s.0);
 		keys.reset(KeyCode::Return);
-		e.send(MenuChoose);
+		e.send(MenuChoose(s.0, state.current().clone()));
 	}
 }
 
@@ -123,7 +123,8 @@ pub struct GrayOut;
 pub fn gray_out(mut c: Commands, mut materials: ResMut<Assets<ColorMaterial>>) {
 	c.spawn_bundle(SpriteBundle {
 		sprite: Sprite::new(Vec2::new(f32::MAX, f32::MAX)),
-		material: materials.add(ColorMaterial::color(Color::rgba_u8(0, 0, 0, 196))),
+		transform: Transform::from_translation(Vec3::new(0.0, 0.0, 0.5)),
+		material: materials.add(ColorMaterial::color(Color::rgba_u8(0, 0, 0, 128))),
 		..Default::default()
 	})
 	.insert(GrayOut);
@@ -167,7 +168,7 @@ pub fn mk_back_entry(
 }
 
 pub fn back_entry_open(
-	s: Res<MenuSelected>,
+	mut s: ResMut<MenuSelected>,
 	mut e: EventReader<MenuChoose>,
 	mut state: ResMut<State<crate::GameState>>,
 	entry: Query<(&MenuEntry, &BackEntry)>,
@@ -175,9 +176,17 @@ pub fn back_entry_open(
 	for _ in e.iter() {
 		for (MenuEntry(n), _) in entry.iter() {
 			if s.0 == *n {
-				println!("Select back");
+				s.0 = 0;
 				state.pop().unwrap();
 			}
+		}
+	}
+}
+
+pub fn cleanup_entries<const state: GameState>(mut c: Commands, e: Query<(Entity, &GameState)>) {
+	for (e, s) in e.iter() {
+		if &state == s {
+			c.entity(e).despawn()
 		}
 	}
 }

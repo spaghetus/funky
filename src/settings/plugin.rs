@@ -2,21 +2,21 @@ use bevy::prelude::*;
 
 use crate::{cleanup::*, level_select::*, menu::*, settings::*, GameState};
 
-pub struct LevelSelect;
+pub struct Settings;
 
-impl Plugin for LevelSelect {
+impl Plugin for Settings {
 	fn build(&self, app: &mut AppBuilder) {
-		app.add_system_set(SystemSet::on_enter(GameState::LevelSelect).with_system(setup.system()))
+		app.add_system_set(SystemSet::on_enter(GameState::Settings).with_system(setup.system()))
 			.add_system_set(
-				SystemSet::on_update(GameState::LevelSelect)
+				SystemSet::on_update(GameState::Settings)
 					.with_system(menu_entry_choose_position.system())
 					.with_system(menu_entry_set_position.system())
 					.with_system(menu_entry_scale.system())
 					.with_system(back_entry_open.system()),
 			)
 			.add_system_set(
-				SystemSet::on_exit(GameState::LevelSelect)
-					.with_system(cleanup_entries::<{ GameState::LevelSelect }>.system()),
+				SystemSet::on_exit(GameState::Settings)
+					.with_system(cleanup_entries::<{ GameState::Settings }>.system()),
 			);
 	}
 }
@@ -33,7 +33,7 @@ fn setup(
 		&mut c,
 		0,
 		&asset_server,
-		"Level Select".to_string(),
+		"Settings".to_string(),
 		&windows,
 		&state,
 	);

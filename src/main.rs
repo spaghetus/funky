@@ -1,5 +1,6 @@
-use bevy::prelude::*;
+#![feature(const_generics)]
 
+use bevy::prelude::*;
 mod cleanup;
 mod level_select;
 mod menu;
@@ -21,7 +22,7 @@ fn main() {
 		.add_plugins(DefaultPlugins)
 		.add_plugin(title::Title)
 		.add_plugin(level_select::LevelSelect)
-		// .add_plugin(settings::Settings)
+		.add_plugin(settings::Settings)
 		.add_state(GameState::Title)
 		.add_event::<crate::menu::MenuChoose>()
 		.insert_resource(crate::menu::MenuSelected(1))
