@@ -1,6 +1,13 @@
 {
 	"cSpell.words": [
 		"despawn",
-		"rgba"
-	]
+		"entrypoint",
+		"rgba",
+		"singleplayer"
+	],
+	"files.associations": {
+		"*.week": "ron",
+		"*.song": "ron",
+		"*.game": "ron"
+	},
 }

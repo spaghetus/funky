@@ -2,8 +2,17 @@
 name = "funky"
 version = "0.1.0"
 edition = "2018"
+default-run = "funky"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
 bevy = "0.5.0"
+midi-to-hell = {git = "https://gitlab.com/wooloo/midi-to-hell"}
+hell-cue-format = {git = "https://gitlab.com/wooloo/hell-cue-format"}
+serde = {version = "*", features = ["derive"]}
+ron = "*"
+
+[[bin]]
+name = "make-funky"
+path = "src/mk.rs"
