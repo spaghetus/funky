@@ -1,6 +1,6 @@
 use std::{thread, time::Duration};
 
-use bevy::prelude::*;
+use bevy::{prelude::*, text::Text2dSize};
 
 use crate::{
 	menu::{MenuChoose, MenuEntry, MenuSelected},
@@ -26,7 +26,13 @@ pub fn ls_menu_open(
 	}
 }
 
-pub fn mk_ls_menu_entry(c: &mut Commands, index: usize, asset_server: &Res<AssetServer>) {
+pub fn mk_ls_menu_entry(
+	c: &mut Commands,
+	index: usize,
+	asset_server: &Res<AssetServer>,
+	windows: &Res<Windows>,
+	state: &Res<State<GameState>>,
+) {
 	c.spawn_bundle(Text2dBundle {
 		transform: Transform::from_translation(Vec3::ZERO),
 		text: Text {
@@ -43,8 +49,15 @@ pub fn mk_ls_menu_entry(c: &mut Commands, index: usize, asset_server: &Res<Asset
 				horizontal: HorizontalAlign::Center,
 			},
 		},
+		text_2d_size: Text2dSize {
+			size: Size {
+				width: windows.get_primary().unwrap().width() / 2.0,
+				height: f32::MAX,
+			},
+		},
 		..Default::default()
 	})
 	.insert(LSMenuEntry)
+	.insert(state.current().clone())
 	.insert(MenuEntry(index));
 }

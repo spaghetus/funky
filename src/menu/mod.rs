@@ -2,35 +2,56 @@
 
 use std::{thread, time::Duration};
 
-use bevy::prelude::*;
+use bevy::{prelude::*, text::Text2dSize};
+
+use crate::GameState;
 
 pub struct MenuEntry(pub usize);
 
 pub struct MenuSelected(pub usize);
 
 pub fn menu_entry_set_position(
-	mut e: Query<(&MenuEntry, &mut Transform)>,
+	mut e: Query<(&MenuEntry, &mut Transform, &GameState)>,
+	state: Res<State<GameState>>,
 	s: Res<MenuSelected>,
 	ti: Res<Time>,
 ) {
-	for (MenuEntry(n), mut t) in e.iter_mut() {
-		let y_goal = (*n as isize - s.0 as isize) * -200;
-		let goal =
-			Transform::from_translation(Vec3::new(t.translation.x, y_goal as f32, t.translation.z));
+	for (MenuEntry(n), mut t, e_state) in e.iter_mut() {
+		let (distance, coefficient, z_offset) = if state.current() == e_state {
+			(-200, 10.0, 1.0)
+		} else {
+			(-100, 8.0, -1.5)
+		};
+		let y_goal = (*n as isize - s.0 as isize) * distance;
+		let goal = Transform::from_translation(Vec3::new(
+			t.translation.x,
+			y_goal as f32,
+			t.translation.z + z_offset,
+		));
 		let distance = goal.translation - t.translation;
-		t.translation += distance * ti.delta_seconds() * 10.0;
+		t.translation += distance * ti.delta_seconds() * coefficient;
 	}
 }
 
-pub fn menu_entry_scale(mut e: Query<(&MenuEntry, &mut Text)>, s: Res<MenuSelected>) {
-	for (MenuEntry(n), mut text) in e.iter_mut() {
-		if s.0 == *n {
-			for text in &mut text.sections {
-				text.style.font_size = 100.0;
+pub fn menu_entry_scale(
+	mut e: Query<(&MenuEntry, &mut Text, &GameState)>,
+	s: Res<MenuSelected>,
+	state: Res<State<GameState>>,
+) {
+	for (MenuEntry(n), mut text, e_state) in e.iter_mut() {
+		if state.current() == e_state {
+			if s.0 == *n {
+				for text in &mut text.sections {
+					text.style.font_size = 100.0;
+				}
+			} else {
+				for text in &mut text.sections {
+					text.style.font_size = 75.0;
+				}
 			}
 		} else {
 			for text in &mut text.sections {
-				text.style.font_size = 75.0;
+				text.style.font_size = 50.0;
 			}
 		}
 	}
@@ -41,7 +62,7 @@ pub struct MenuChoose;
 pub fn menu_entry_choose_position(
 	mut e: EventWriter<MenuChoose>,
 	mut s: ResMut<MenuSelected>,
-	keys: Res<Input<KeyCode>>,
+	mut keys: ResMut<Input<KeyCode>>,
 	entries: Query<&MenuEntry>,
 ) {
 	if keys.just_pressed(KeyCode::Up) {
@@ -56,6 +77,7 @@ pub fn menu_entry_choose_position(
 	}
 	if keys.just_released(KeyCode::Return) {
 		println!("Choose {}", s.0);
+		keys.reset(KeyCode::Return);
 		e.send(MenuChoose);
 	}
 }
@@ -65,6 +87,8 @@ pub fn mk_text_entry(
 	index: usize,
 	asset_server: &Res<AssetServer>,
 	text: String,
+	windows: &Res<Windows>,
+	state: &Res<State<GameState>>,
 ) {
 	c.spawn_bundle(Text2dBundle {
 		transform: Transform::from_translation(Vec3::ZERO),
@@ -82,8 +106,15 @@ pub fn mk_text_entry(
 				horizontal: HorizontalAlign::Center,
 			},
 		},
+		text_2d_size: Text2dSize {
+			size: Size {
+				width: windows.get_primary().unwrap().width() / 2.0,
+				height: f32::MAX,
+			},
+		},
 		..Default::default()
 	})
+	.insert(state.current().clone())
 	.insert(MenuEntry(index));
 }
 
@@ -106,7 +137,12 @@ pub fn un_gray_out(mut c: Commands, q: Query<Entity, With<GrayOut>>) {
 
 pub struct BackEntry;
 
-pub fn mk_back_entry(c: &mut Commands, index: usize, asset_server: &Res<AssetServer>) {
+pub fn mk_back_entry(
+	c: &mut Commands,
+	index: usize,
+	asset_server: &Res<AssetServer>,
+	state: &Res<State<GameState>>,
+) {
 	c.spawn_bundle(Text2dBundle {
 		transform: Transform::from_translation(Vec3::ZERO),
 		text: Text {
@@ -126,6 +162,7 @@ pub fn mk_back_entry(c: &mut Commands, index: usize, asset_server: &Res<AssetSer
 		..Default::default()
 	})
 	.insert(BackEntry)
+	.insert(state.current().clone())
 	.insert(MenuEntry(index));
 }
 

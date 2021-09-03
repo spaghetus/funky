@@ -15,7 +15,7 @@ impl Plugin for Title {
 			SystemSet::on_update(GameState::Title)
 				.with_system(menu_entry_choose_position.system())
 				.with_system(menu_entry_set_position.system())
-				// .with_system(menu_entry_scale.system())
+				.with_system(menu_entry_scale.system())
 				.with_system(ls_menu_open.system())
 				.with_system(settings_menu_open.system()),
 		)
@@ -24,9 +24,21 @@ impl Plugin for Title {
 	}
 }
 
-fn setup(mut c: Commands, asset_server: Res<AssetServer>) {
-	mk_text_entry(&mut c, 0, &asset_server, "Funky Engine".to_string());
-	mk_ls_menu_entry(&mut c, 1, &asset_server);
-	mk_settings_menu_entry(&mut c, 2, &asset_server);
+fn setup(
+	mut c: Commands,
+	asset_server: Res<AssetServer>,
+	windows: Res<Windows>,
+	state: Res<State<GameState>>,
+) {
+	mk_text_entry(
+		&mut c,
+		0,
+		&asset_server,
+		"Funky Engine".to_string(),
+		&windows,
+		&state,
+	);
+	mk_ls_menu_entry(&mut c, 1, &asset_server, &windows, &state);
+	mk_settings_menu_entry(&mut c, 2, &asset_server, &state);
 	c.spawn_bundle(OrthographicCameraBundle::new_2d());
 }

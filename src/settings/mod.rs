@@ -5,6 +5,7 @@ use bevy::prelude::Commands;
 use bevy::prelude::*;
 
 use crate::menu::MenuSelected;
+use crate::GameState;
 
 pub struct SettingsMenuEntry;
 
@@ -25,7 +26,12 @@ pub fn settings_menu_open(
 	}
 }
 
-pub fn mk_settings_menu_entry(c: &mut Commands, index: usize, asset_server: &Res<AssetServer>) {
+pub fn mk_settings_menu_entry(
+	c: &mut Commands,
+	index: usize,
+	asset_server: &Res<AssetServer>,
+	state: &Res<State<GameState>>,
+) {
 	c.spawn_bundle(Text2dBundle {
 		transform: Transform::from_translation(Vec3::ZERO),
 		text: Text {
@@ -45,5 +51,6 @@ pub fn mk_settings_menu_entry(c: &mut Commands, index: usize, asset_server: &Res
 		..Default::default()
 	})
 	.insert(SettingsMenuEntry)
+	.insert(state.current().clone())
 	.insert(crate::menu::MenuEntry(index));
 }
