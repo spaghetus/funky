@@ -1,9 +1,7 @@
-use std::{thread, time::Duration};
-
 use bevy::{prelude::*, text::Text2dSize};
 
 use crate::{
-	menu::{MenuChoose, MenuEntry, MenuSelected},
+	menu::{MenuChoose, MenuEntry},
 	GameState,
 };
 

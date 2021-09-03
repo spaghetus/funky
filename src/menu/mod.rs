@@ -1,7 +1,5 @@
 // This module defines reusable menu components and systems.
 
-use std::{thread, time::Duration};
-
 use bevy::{prelude::*, text::Text2dSize};
 
 use crate::GameState;
@@ -183,9 +181,9 @@ pub fn back_entry_open(
 	}
 }
 
-pub fn cleanup_entries<const state: GameState>(mut c: Commands, e: Query<(Entity, &GameState)>) {
+pub fn cleanup_entries<const STATE: GameState>(mut c: Commands, e: Query<(Entity, &GameState)>) {
 	for (e, s) in e.iter() {
-		if &state == s {
+		if &STATE == s {
 			c.entity(e).despawn()
 		}
 	}

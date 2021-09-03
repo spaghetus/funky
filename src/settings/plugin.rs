@@ -1,6 +1,6 @@
 use bevy::prelude::*;
 
-use crate::{cleanup::*, level_select::*, menu::*, settings::*, GameState};
+use crate::{menu::*, GameState};
 
 pub struct Settings;
 
