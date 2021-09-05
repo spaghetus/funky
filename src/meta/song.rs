@@ -1,3 +1,5 @@
+use std::collections::HashMap;
+
 use serde::{Deserialize, Serialize};
 
 #[derive(Serialize, Deserialize)]
@@ -9,4 +11,5 @@ pub struct Song {
 	pub cue_names: Vec<String>,
 	pub enemy_cue_names: Vec<String>,
 	pub extra_plugins: Vec<String>,
+	pub difficulty_suffixes: HashMap<String, String>,
 }
