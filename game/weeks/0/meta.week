@@ -1,0 +1,10 @@
+Week (
+	name: "Test 1",
+	left_title_characters: [
+		"angy"
+	],
+	right_title_characters: [
+		"boye"
+	],
+	title_color: (64, 64, 64)
+)

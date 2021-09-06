@@ -60,6 +60,7 @@ pub fn main() {
 							)
 						}
 					},
+					Some("char") => todo!(),
 					Some("wav" | "txt" | "md") => true,
 					Some("mid" | "midi") => {
 						// Wacky MIDI transformation happens here
@@ -70,6 +71,9 @@ pub fn main() {
 						let output = ron::to_string(&convert("fnf", &input)).unwrap();
 						std::fs::write(dest_path, output).unwrap();
 						false
+					}
+					Some("svg") => {
+						todo!()
 					}
 					_ => false,
 				};
