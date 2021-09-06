@@ -14,6 +14,8 @@ This project is NOT an FNF mod, it is a completely separate codebase in a differ
 
 I haven't thoroughly documented the modding process, but you can use the `game` directory in this repo or the same directory in the *Vs. The Gang* (doesn't exist yet) as a reference.
 
+For our metadata files, we use the Rusty Object Notation. Support in languages other than Rust is scarce, but it's very human-friendly. All of the properties are demonstrated in the game directory in this repo, and are defined in structs under `src/meta`.
+
 In short, fill `game` with `meta.game`, `song.wav`, and the `weeks` directory.
 
 Fill the weeks directory with numbered week directories.
