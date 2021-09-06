@@ -8,6 +8,7 @@
 	"files.associations": {
 		"*.week": "ron",
 		"*.song": "ron",
-		"*.game": "ron"
+		"*.game": "ron",
+		"*.hell": "ron"
 	},
 }

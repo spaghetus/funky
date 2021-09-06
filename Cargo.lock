@@ -1394,11 +1394,14 @@ checksum = "3dcaa9ae7725d12cdb85b3ad99a434db70b468c09ded17e012d86b5c1010f7a7"
 name = "funky"
 version = "0.1.0"
 dependencies = [
+ "anyhow",
  "bevy",
  "hell-cue-format",
  "midi-to-hell",
+ "rayon",
  "ron",
  "serde",
+ "walkdir",
 ]
 
 [[package]]

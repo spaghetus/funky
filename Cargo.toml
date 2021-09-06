@@ -12,6 +12,9 @@ midi-to-hell = {git = "https://gitlab.com/wooloo/midi-to-hell"}
 hell-cue-format = {git = "https://gitlab.com/wooloo/hell-cue-format"}
 serde = {version = "*", features = ["derive"]}
 ron = "*"
+anyhow = "*"
+walkdir = "*"
+rayon = "*"
 
 [[bin]]
 name = "make-funky"

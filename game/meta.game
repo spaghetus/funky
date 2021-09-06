@@ -1,4 +1,3 @@
-{
-	name: "Funky Test Game",
-	
-}
+Game (
+	name: "Funky Test Game"
+)

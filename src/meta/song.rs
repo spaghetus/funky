@@ -5,7 +5,7 @@ use serde::{Deserialize, Serialize};
 #[derive(Serialize, Deserialize)]
 pub struct Song {
 	pub name: String,
-	pub players: String,
+	pub players: Vec<String>,
 	pub enemies: Vec<String>,
 	pub singleplayer_cue_name: String,
 	pub cue_names: Vec<String>,
