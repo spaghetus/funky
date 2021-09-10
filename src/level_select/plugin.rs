@@ -46,5 +46,4 @@ fn setup(
 		&state,
 	);
 	mk_back_entry(&mut c, 2, &asset_server, &state);
-	c.spawn_bundle(OrthographicCameraBundle::new_2d());
 }

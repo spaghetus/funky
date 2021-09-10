@@ -27,5 +27,6 @@ fn main() {
 		.add_state(GameState::Title)
 		.add_event::<crate::menu::MenuChoose>()
 		.insert_resource(crate::menu::MenuSelected(1))
+		.add_startup_system(setup.system())
 		.run();
 }
