@@ -1,4 +1,4 @@
-// This module defines reusable menu components and systems.
+//! This module defines reusable menu components and systems.
 
 use bevy::{prelude::*, text::Text2dSize};
 

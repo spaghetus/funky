@@ -1,4 +1,4 @@
-// This module defines the settings menu.
+//! This module defines the settings menu.
 
 mod menu_entry;
 pub use menu_entry::*;

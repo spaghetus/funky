@@ -1,11 +1,10 @@
-// This file is the entrypoint for make-funky.
+#![allow(incomplete_features)]
+#![feature(adt_const_params)]
 
-use std::{
-	fs::read_to_string,
-	path::{Path, PathBuf},
-};
+//! This file is the entrypoint for make-funky.
 
-use anyhow::Error;
+use std::{fs::read_to_string, path::PathBuf};
+
 use midi_to_hell::convert;
 use rayon::prelude::*;
 
