@@ -1,20 +1,19 @@
 Song (
 	name: "Test Day 1",
 	players: [
-		// If multiplayer is eventually implemented, players beyond this list will use a random selection from it.
 		"boye"
 	],
 	enemies: ["angy"],
 	singleplayer_cue_name: "player",
-	// If multiplayer is eventually implemented, players beyond this list will use a random selection from it.
 	cue_names: ["player"],
 	enemy_cue_names: ["enemy"],
-	// Eventually this will allow engine developers to add selectively loaded plugins for special song events.
 	extra_plugins: [],
-	// Sets the suffixes for the cue names in different difficulties
 	difficulty_suffixes: {
 		"Easy": "_easy",
 		"Medium": "_medium",
 		"Hard": "_hard"
-	}
+	},
+	requires: [],
+	unlocks: [],
+	perfect_unlocks: [],
 )
