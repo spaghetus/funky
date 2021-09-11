@@ -9,6 +9,7 @@
 		"*.week": "ron",
 		"*.song": "ron",
 		"*.game": "ron",
-		"*.hell": "ron"
+		"*.hell": "ron",
+		"*.char": "ron"
 	},
 }

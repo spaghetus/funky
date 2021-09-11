@@ -1,18 +1,17 @@
 #![allow(incomplete_features)]
 #![feature(adt_const_params)]
+#![forbid(missing_docs)]
 
 //! This file is the entrypoint for make-funky.
 
-use std::{fs::read_to_string, path::PathBuf};
+pub use midi_to_hell::convert;
+pub use rayon::prelude::*;
+pub use std::{fs::read_to_string, path::PathBuf};
+pub mod meta;
+pub use meta::*;
+pub use walkdir::WalkDir;
 
-use midi_to_hell::convert;
-use rayon::prelude::*;
-
-mod meta;
-use meta::*;
-use walkdir::WalkDir;
-
-pub fn main() {
+fn main() {
 	WalkDir::new("game")
 		.into_iter()
 		.par_bridge()
