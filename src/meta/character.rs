@@ -1,4 +1,6 @@
+use serde::{Deserialize, Serialize};
 /// The metadata for a character.
+#[derive(Serialize, Deserialize)]
 pub struct Character {
 	/// The human-friendly name for a character.
 	pub name: String,

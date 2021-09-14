@@ -8,3 +8,5 @@ mod week;
 pub use week::Week;
 mod character;
 pub use character::Character;
+mod atlas;
+pub use atlas::GeneratedAtlas;

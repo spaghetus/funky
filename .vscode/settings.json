@@ -3,7 +3,8 @@
 		"despawn",
 		"entrypoint",
 		"rgba",
-		"singleplayer"
+		"singleplayer",
+		"sodipodi"
 	],
 	"files.associations": {
 		"*.week": "ron",
