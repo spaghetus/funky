@@ -1,4 +1,5 @@
 #![allow(incomplete_features)]
+#![allow(clippy::type_complexity)]
 #![feature(adt_const_params)]
 
 use bevy::prelude::*;

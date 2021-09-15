@@ -45,7 +45,7 @@ impl<'a> Animated {
 		q: Query<(Entity, &Transform), (With<Animated>, Without<AnimatedSpriteTransform>)>,
 	) {
 		for (e, t) in q.iter() {
-			c.entity(e).insert(AnimatedSpriteTransform(t.clone()));
+			c.entity(e).insert(AnimatedSpriteTransform(*t));
 		}
 	}
 
@@ -88,7 +88,7 @@ impl<'a> Animated {
 				.iter()
 				.filter(|(n, _)| n < &&ti.0)
 				.last()
-				.unwrap_or(animation.iter().next().unwrap());
+				.unwrap_or_else(|| animation.iter().next().unwrap());
 			let top_left = te.textures[frame.atlas_index as usize].min;
 			let top_right = te.textures[frame.atlas_index as usize].max;
 			let true_center = frame.position;

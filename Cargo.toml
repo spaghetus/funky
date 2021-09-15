@@ -16,7 +16,9 @@ anyhow = "*"
 walkdir = "*"
 rayon = "*"
 resvg = "*"
+usvg = "*"
 xml_dom = "*"
+tiny-skia = "*"
 
 [[bin]]
 name = "make-funky"

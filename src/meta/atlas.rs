@@ -1,4 +1,3 @@
-use bevy::prelude::Rect;
 use serde::{Deserialize, Serialize};
 use std::collections::{BTreeMap, HashMap};
 

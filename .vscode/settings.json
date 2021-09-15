@@ -1,10 +1,17 @@
 {
 	"cSpell.words": [
+		"AABB",
 		"despawn",
 		"entrypoint",
+		"pixmap",
+		"rects",
+		"resvg",
 		"rgba",
 		"singleplayer",
-		"sodipodi"
+		"skia",
+		"sodipodi",
+		"usvg",
+		"walkdir"
 	],
 	"files.associations": {
 		"*.week": "ron",
