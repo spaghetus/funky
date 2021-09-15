@@ -1,6 +1,11 @@
 use bevy::prelude::*;
 
-use crate::{menu::*, GameState};
+use crate::{
+	game::{game_entry_open, mk_game_menu_entry},
+	menu::*,
+	meta::Game,
+	GameState,
+};
 
 pub struct LevelSelect;
 
@@ -12,6 +17,7 @@ impl Plugin for LevelSelect {
 					.with_system(menu_entry_choose_position.system())
 					.with_system(menu_entry_set_position.system())
 					.with_system(menu_entry_scale.system())
+					.with_system(game_entry_open.system())
 					.with_system(back_entry_open.system()),
 			)
 			.add_system_set(
@@ -27,6 +33,7 @@ fn setup(
 	mut s: ResMut<MenuSelected>,
 	windows: Res<Windows>,
 	state: Res<State<GameState>>,
+	game: Res<Game>,
 ) {
 	s.0 = 0;
 	mk_text_entry(
@@ -37,13 +44,21 @@ fn setup(
 		&windows,
 		&state,
 	);
-	mk_text_entry(
-		&mut c,
-		1,
-		&asset_server,
-		"- Empty -".to_string(),
-		&windows,
-		&state,
-	);
-	mk_back_entry(&mut c, 2, &asset_server, &state);
+	let mut index = 1;
+	for week in &game.weeks {
+		mk_text_entry(
+			&mut c,
+			index,
+			&asset_server,
+			format!("- {} -", week.name.clone()),
+			&windows,
+			&state,
+		);
+		index += 1;
+		for song in &week.songs {
+			mk_game_menu_entry(&mut c, index, &asset_server, &windows, &state, &song);
+			index += 1
+		}
+	}
+	mk_back_entry(&mut c, index, &asset_server, &state);
 }

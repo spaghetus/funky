@@ -9,7 +9,8 @@ impl Plugin for Title {
 		app.add_system_set(
 			SystemSet::on_enter(GameState::Title)
 				.with_system(cleanup.system())
-				.with_system(setup.system()),
+				.with_system(setup.system())
+				.with_system(set_music.system()),
 		)
 		.add_system_set(
 			SystemSet::on_update(GameState::Title)
@@ -20,7 +21,11 @@ impl Plugin for Title {
 				.with_system(settings_menu_open.system()),
 		)
 		.add_system_set(SystemSet::on_pause(GameState::Title).with_system(gray_out.system()))
-		.add_system_set(SystemSet::on_resume(GameState::Title).with_system(un_gray_out.system()));
+		.add_system_set(
+			SystemSet::on_resume(GameState::Title)
+				.with_system(un_gray_out.system())
+				.with_system(set_music.system()),
+		);
 	}
 }
 
@@ -41,4 +46,11 @@ fn setup(
 	mk_ls_menu_entry(&mut c, 1, &asset_server, &windows, &state);
 	mk_settings_menu_entry(&mut c, 2, &asset_server, &state);
 	c.spawn_bundle(OrthographicCameraBundle::new_2d());
+}
+
+use crate::meta::Game;
+use bevy_kira_audio::Audio;
+
+fn set_music(asset_server: Res<AssetServer>, audio: Res<Audio>, game: Res<Game>) {
+	play_looped!(audio, asset_server, game.path.join("song.wav"));
 }

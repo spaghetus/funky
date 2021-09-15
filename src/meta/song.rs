@@ -3,7 +3,7 @@ use std::collections::HashMap;
 use serde::{Deserialize, Serialize};
 
 /// The metadata for an individual song.
-#[derive(Serialize, Deserialize)]
+#[derive(Serialize, Deserialize, Clone)]
 pub struct Song {
 	/// The human-friendly name of a song.
 	pub name: String,
@@ -30,4 +30,20 @@ pub struct Song {
 	pub unlocks: Vec<String>,
 	/// The extra groups this song unlocks upon *perfect* completion.
 	pub perfect_unlocks: Vec<String>,
+	/// The path of the song folder.
+	#[serde(skip)]
+	pub path: PathBuf,
+}
+
+use anyhow::Result;
+use std::fs;
+use std::path::PathBuf;
+
+impl Song {
+	pub fn load(path: &str) -> Result<Song> {
+		let song = fs::read_to_string(PathBuf::from(path).join("meta.song"))?.to_string();
+		let mut song: Song = ron::from_str(&song)?;
+		song.path = PathBuf::from(path);
+		Ok(song)
+	}
 }

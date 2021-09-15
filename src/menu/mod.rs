@@ -57,8 +57,11 @@ pub fn menu_entry_scale(
 
 pub struct MenuChoose(pub usize, pub GameState);
 
+pub struct MenuChange(pub usize, pub GameState);
+
 pub fn menu_entry_choose_position(
 	mut e: EventWriter<MenuChoose>,
+	mut ec: EventWriter<MenuChange>,
 	mut s: ResMut<MenuSelected>,
 	state: Res<State<GameState>>,
 	mut keys: ResMut<Input<KeyCode>>,
@@ -66,6 +69,7 @@ pub fn menu_entry_choose_position(
 ) {
 	if keys.just_pressed(KeyCode::Up) {
 		s.0 = (s.0 as isize - 1).max(0) as usize;
+		ec.send(MenuChange(s.0, state.current().clone()));
 	}
 	if keys.just_pressed(KeyCode::Down) {
 		s.0 += 1;
@@ -73,6 +77,7 @@ pub fn menu_entry_choose_position(
 		if s.0 > limit {
 			s.0 = limit
 		}
+		ec.send(MenuChange(s.0, state.current().clone()));
 	}
 	if keys.just_released(KeyCode::Return) {
 		keys.reset(KeyCode::Return);

@@ -10,7 +10,7 @@ pub use rayon::prelude::*;
 pub use std::{fs::read_to_string, path::PathBuf};
 use xml_dom::level2::{Element, Node, RefNode};
 pub mod meta;
-pub use meta::*;
+use meta::*;
 pub use walkdir::WalkDir;
 
 const SCALE: usize = 2;

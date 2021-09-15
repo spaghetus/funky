@@ -7,7 +7,18 @@ default-run = "funky"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
-bevy = "0.5.0"
+bevy = {version="0.5.0", default-features=false, features=[
+	"bevy_dynamic_plugin",
+	"bevy_gilrs",
+	"bevy_gltf",
+	"bevy_wgpu",
+	"bevy_winit",
+	"render",
+	"png",
+	"hdr",
+	"mp3",
+	"x11"
+]}
 midi-to-hell = {git = "https://gitlab.com/wooloo/midi-to-hell"}
 hell-cue-format = {git = "https://gitlab.com/wooloo/hell-cue-format"}
 serde = {version = "*", features = ["derive"]}
@@ -19,6 +30,7 @@ resvg = "*"
 usvg = "*"
 xml_dom = "*"
 tiny-skia = "*"
+bevy_kira_audio = {version = "*", features = ["wav"]}
 
 [[bin]]
 name = "make-funky"
